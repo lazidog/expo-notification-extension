@@ -1,0 +1,28 @@
+{
+  "name": "@lazidog/expo-notification-extension",
+  "version": "1.0.0",
+  "keywords": [
+    "expo",
+    "expo-plugin",
+    "notification",
+    "notification service extension"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "scripts": {
+    "build": "rm -rf build && tsc && cp -a extension-files build/extension-files/"
+  },
+  "dependencies": {
+    "@expo/config-plugins": "^9.0.11"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "5.6.3"
+  },
+  "files": [
+    "build"
+  ]
+}
