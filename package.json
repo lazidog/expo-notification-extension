@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lazidog/expo-notification-extension.git"
+  },
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "scripts": {
