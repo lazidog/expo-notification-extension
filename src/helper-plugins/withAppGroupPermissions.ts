@@ -1,6 +1,10 @@
 import { type ConfigPlugin, withEntitlementsPlist } from "@expo/config-plugins";
 import { APP_GROUP_KEY } from "../constants";
 
+/**
+ * Modify the iOS entitlements plist to add an App Group entitlement.
+ * Ensures the app and app extension can communicate and share resources securely
+ */
 const withAppGroupPermissions: ConfigPlugin = (config) => {
   return withEntitlementsPlist(config, (newConfig) => {
     if (!Array.isArray(newConfig.modResults[APP_GROUP_KEY])) {

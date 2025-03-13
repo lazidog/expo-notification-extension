@@ -1,11 +1,14 @@
 {
   "name": "@lazidog/expo-notification-extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "expo",
     "expo-plugin",
     "notification",
-    "notification service extension"
+    "notification service extension",
+    "FCM",
+    "rich notification",
+    "firebase messaging"
   ],
   "author": "",
   "license": "ISC",

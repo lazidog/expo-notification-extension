@@ -1,5 +1,4 @@
 import { type ConfigPlugin, withPlugins } from "@expo/config-plugins";
-import withAllTargetPod from "./helper-plugins/withAllTargetPod";
 import withAppGroupPermissions from "./helper-plugins/withAppGroupPermissions";
 import withApsEnvironment from "./helper-plugins/withApsEnvironment";
 import withCopyExtensionFiles from "./helper-plugins/withCopyExtensionFiles";
@@ -14,18 +13,17 @@ export type NSEPluginProps = {
 
 const withNotificationExtension: ConfigPlugin<NSEPluginProps> = (
   config,
-  props,
+  props
 ) => {
   if (typeof props.apsEnvironment !== "string") {
     throw new Error(
-      "NotificationsExtension Expo Plugin: 'apsEnvironment' must be a string.",
+      "NotificationsExtension Expo Plugin: 'apsEnvironment' must be a string."
     );
   }
   return withPlugins(config, [
     [withApsEnvironment, props],
     withRemoteNotificationsPermissions,
     withFirebaseMessagingPod,
-    withAllTargetPod,
     withAppGroupPermissions,
     withCopyExtensionFiles,
     withNotificationExtensionXcode,

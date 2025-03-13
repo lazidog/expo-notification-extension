@@ -1,6 +1,11 @@
 import { type ConfigPlugin, withXcodeProject } from "@expo/config-plugins";
 import { EXTENSION_NAME, EXT_FILES } from "../constants";
 
+/**
+ * Add Xcode target for the extension
+ * Create PBXGroup to organize the extension files in Xcode file explorer
+ *
+ */
 const withNotificationExtensionXcode: ConfigPlugin = (config) => {
   return withXcodeProject(config, (newConfig) => {
     const pbxProject = newConfig.modResults;
@@ -12,10 +17,12 @@ const withNotificationExtensionXcode: ConfigPlugin = (config) => {
     const extGroup = pbxProject.addPbxGroup(
       [...EXT_FILES],
       EXTENSION_NAME,
-      EXTENSION_NAME,
+      EXTENSION_NAME
     );
-    // Add the new PBXGroup to the top level group. This makes the
-    // files / folder appear in the file explorer in Xcode.
+    /**
+     * Add the new PBXGroup to the top level group.
+     * This makes the files / folder appear in the file explorer in Xcode.
+     */
     const groups = pbxProject.hash.project.objects.PBXGroup;
     // biome-ignore lint/complexity/noForEach: <explanation>
     Object.keys(groups).forEach((key) => {
@@ -40,25 +47,29 @@ const withNotificationExtensionXcode: ConfigPlugin = (config) => {
       EXTENSION_NAME,
       "app_extension",
       EXTENSION_NAME,
-      `${newConfig.ios?.bundleIdentifier}.${EXTENSION_NAME}`,
+      `${newConfig.ios?.bundleIdentifier}.${EXTENSION_NAME}`
     );
+    /**
+     * Adds source file NotificationService.m to build phase to compile.
+     * Without this phase, the code wouldn’t be compiled into an executable, and the extension would do nothing
+     */
     pbxProject.addBuildPhase(
       ["NotificationService.m"],
       "PBXSourcesBuildPhase",
       "Sources",
-      target.uuid,
+      target.uuid
     );
     pbxProject.addBuildPhase(
       [],
       "PBXResourcesBuildPhase",
       "Resources",
-      target.uuid,
+      target.uuid
     );
     pbxProject.addBuildPhase(
       [],
       "PBXFrameworksBuildPhase",
       "Frameworks",
-      target.uuid,
+      target.uuid
     );
 
     const configurations = pbxProject.pbxXCBuildConfigurationSection();
@@ -68,8 +79,6 @@ const withNotificationExtensionXcode: ConfigPlugin = (config) => {
         typeof buildSettingsObj !== "undefined" &&
         buildSettingsObj.PRODUCT_NAME === `"${EXTENSION_NAME}"`
       ) {
-        buildSettingsObj.IPHONEOS_DEPLOYMENT_TARGET = "11.0";
-        buildSettingsObj.TARGETED_DEVICE_FAMILY = `"1,2"`;
         buildSettingsObj.CODE_SIGN_ENTITLEMENTS = `${EXTENSION_NAME}/${EXTENSION_NAME}.entitlements`;
         buildSettingsObj.CODE_SIGN_STYLE = "Automatic";
       }

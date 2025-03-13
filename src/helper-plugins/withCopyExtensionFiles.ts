@@ -43,15 +43,22 @@ const copyFile = async (path1: string, path2: string): Promise<void> => {
   await writeFile(path2, fileContents);
 };
 
+/**
+ * 1. Copies predefined extension files into the iOS project folder.
+ * 2. Updates the entitlements file with the correct App Group identifier for app-extension communication.
+ * 3. Updates the extension's Info.plist with the app's bundle version and short version.
+ */
 const withCopyExtensionFiles: ConfigPlugin = (_config) => {
   return withDangerousMod(_config, [
     "ios",
     async (config) => {
+      /** path to target folder: app/ios/{EXTENSION_NAME} */
       const targetPath = path.join(
         config.modRequest.projectRoot,
         "ios",
-        EXTENSION_NAME,
+        EXTENSION_NAME
       );
+      /** path to predefined extension files (e.g., NotificationService-Info.plist, NotificationService.m, ...) */
       const extFilesPath = path.resolve(EXTENSION_FILES_PATH);
 
       /* COPY EXTENSION FILES */
@@ -68,7 +75,7 @@ const withCopyExtensionFiles: ConfigPlugin = (_config) => {
       let entitlementsFile = await readFile(entitlementsFilePath);
       entitlementsFile = entitlementsFile.replace(
         GROUP_IDENTIFIER_TEMPLATE_REGEX,
-        groupIdentifier,
+        groupIdentifier
       );
 
       await writeFile(entitlementsFilePath, entitlementsFile);
@@ -81,11 +88,11 @@ const withCopyExtensionFiles: ConfigPlugin = (_config) => {
       let plistFile = await readFile(plistFilePath);
       plistFile = plistFile.replace(
         BUNDLE_VERSION_TEMPLATE_REGEX,
-        bundleVersion,
+        bundleVersion
       );
       plistFile = plistFile.replace(
         BUNDLE_SHORT_VERSION_TEMPLATE_REGEX,
-        bundleShortVersion,
+        bundleShortVersion
       );
 
       await writeFile(plistFilePath, plistFile);

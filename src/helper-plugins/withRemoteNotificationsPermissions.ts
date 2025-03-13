@@ -1,6 +1,8 @@
 import { type ConfigPlugin, withInfoPlist } from "@expo/config-plugins";
 
-// Add remote notification permission in Background Modes capability
+/**
+ * Add remote notification permission in Background Modes capability
+ */
 const withRemoteNotificationsPermissions: ConfigPlugin = (config) => {
   const BACKGROUND_MODE_KEYS = ["remote-notification"];
   return withInfoPlist(config, (newConfig) => {
